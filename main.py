@@ -32,10 +32,10 @@ def mullersMethod(p0, p1, p2, f, epsilon, maxIter):
     :param maxIter: The max number of iterations that we are willing to accept
     :return: the amount of the roots found
     """
+    s = "The initial guess:\np0 = " + str(p0) + ", p1 = " + str(p1) + ", p2 = " + str(p2) + "\n"
     countRoots = 0
     start = p0
     end = p2
-    s = "The initial guess:\np0 = " + str(p0) + ", p1 = " + str(p1) + ", p2 = " + str(p2) + "\n"
     # Check if one of the initial guess is the root
     flag = False
     maxTries = 10
@@ -44,7 +44,7 @@ def mullersMethod(p0, p1, p2, f, epsilon, maxIter):
         try:
             if f(p0) == 0:
                 print(s)
-                print(colored("The root is: x = " + str(p0) + ", found after 0 iterations", 'blue'))
+                print(colored("The root is: x = " + str(p0) + ", f(x) = " + str(f(p0)) + ", found after 0 iterations", 'blue'))
                 countRoots += 1
                 flag = True
             break
@@ -60,7 +60,7 @@ def mullersMethod(p0, p1, p2, f, epsilon, maxIter):
         try:
             if f(p1) == 0:
                 print(s)
-                print(colored("The root is: x = " + str(p1) + ", found after 1 iterations", 'blue'))
+                print(colored("The root is: x = " + str(p1) + ", f(x) = " + str(f(p1)) + ", found after 1 iterations", 'blue'))
                 countRoots += 1
                 flag = True
             break
@@ -77,7 +77,7 @@ def mullersMethod(p0, p1, p2, f, epsilon, maxIter):
         try:
             if f(p2) == 0:
                 print(s)
-                print(colored("The root is: x = " + str(p2) + ", found after 2 iterations", 'blue'))
+                print(colored("The root is: x = " + str(p2) + ", f(x) = " + str(f(p2)) + ", found after 2 iterations", 'blue'))
                 countRoots += 1
                 flag = True
             break
@@ -125,7 +125,7 @@ def mullersMethod(p0, p1, p2, f, epsilon, maxIter):
                 if abs(f(p)) <= 0 + epsilon:
                     print(s, end="")
                     print(
-                        colored("The root is: x = " + str(p) + ", found after " + str(iter) + " iterations\n", 'blue'))
+                        colored("The root is: x = " + str(p) + ", f(x) = " + str(f(p)) + ", found after " + str(iter) + " iterations\n", 'blue'))
                     countRoots += 1
                     return countRoots
                 else:
@@ -148,7 +148,7 @@ def mullersMethod(p0, p1, p2, f, epsilon, maxIter):
     return countRoots
 
 
-def rangeDivision(polinom, epsilon, iterNumber, maxRoots=15, start_point=-100, end_point=100):
+def rangeDivision(polinom, epsilon, iterNumber, maxRoots, start_point, end_point):
     """
     :param polinom: Original function
     :param start_point: int value, the start point of the range
@@ -182,15 +182,17 @@ def driver():
     # y = sp.lambdify(f, x)
     # print(y)
     # f = (math.exp(1))**x
-    f = sympy.cos(x)
+    #f = sympy.cos(x)
     #f = (10 * x * ((math.exp(1) ** x)) - (x ** 3)) / (x**3 - 5)
     #f = log(x ** 4, 10) + x + 1
+    f = x**2 + 2
     epsilon = 10 ** -5
-    startPoint = 0.5
-    endPoint = 3
+    maxRoots = 15
+    start_point = -100
+    end_point = 100
     maxIteration = 100
     f = sp.lambdify(x, f)
-    rangeDivision(f, epsilon, maxIteration)
+    rangeDivision(f, epsilon, maxIteration, maxRoots, start_point, end_point)
     print("program finished :)")
 
 
