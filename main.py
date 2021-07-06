@@ -7,19 +7,29 @@ import sys
 
 
 def num_after_point(x):
-    s = str(x)
-    if '.' not in s:
-        return 0
-    return len(s) - s.index('.') - 1
+    """
+    :param x: a number
+    :return: the number of digits after the point in the number
+    """
+    s = str(x)   # cast the number to string
+    if '.' not in s:    # search for a dot in the number
+        return 0    # no dot was found
+    return len(s) - s.index('.') - 1    # return the number of digits after the point
 
 
 def checkResult(f, res, epsilon):
-    x = round(res, num_after_point(epsilon + 1))
+    """
+    :param f: a function
+    :param res: an x value
+    :param epsilon: an epsilon
+    :return: if res (within a range of epsilon) is in the definition range of f
+    """
+    x = round(res, num_after_point(epsilon + 1))   # calc x by rounding res
     try:
-        abs(f(x))
-        return True
+        f(x)   # check if x is in the defenition range of f
+        return True   # return true if it does
     except:
-        return False
+        return False   # return false if it doesn't
 
 
 def mullersMethod(p0, p1, p2, f, epsilon, maxIter):
@@ -163,7 +173,8 @@ def rangeDivision(polinom, epsilon, iterNumber, maxRoots, start_point, end_point
     :param end_point: int value, the end point of the range
     :param epsilon: The accepted error
     :param iterNumber: The max number of iterations that we are willing to accept
-    :return: None
+    :param maxRoots: The maximum number of roots the algorithm will find
+    :return: a list of the function's roots in the range [start_point, end_point]
     """
 
     # dividing the range to small parts
