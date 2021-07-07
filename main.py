@@ -212,16 +212,21 @@ def driver():
     # f = x ** 4 - 3 * (x ** 3) + x ** 2 + x + 1
     # f = (x ** 4 - 4 * (x ** 2)) / x
     # f = sympy.cos(x)
-    f = (10 * x * (math.exp(1) ** x) - (x ** 3)) / (x**3 - 5)
-    f = log(x ** 4, 10) + x + 1
     epsilon = 10 ** -5
     maxRoots = 15
     start_point = -100
     end_point = 100
     maxIteration = 100
+    # ----- 1st run -----
+    f = (10 * x * (math.exp(1) ** x) - (x ** 3)) / (x ** 3 - 5)
     f = sp.lambdify(x, f)
     results = rangeDivision(f, epsilon, maxIteration, maxRoots, start_point, end_point)
-    checkDifferPart3(results, [0.1, 0.2, 0.3], "Muller's", "Expected", 10 ** -5)
+    checkDifferPart3(results, [-1.49643, 0], "Muller's", "Expected", 10 ** -5)
+    # ----- 2nd run -----
+    f = log(x ** 4, 10) + x + 1
+    f = sp.lambdify(x, f)
+    results = rangeDivision(f, epsilon, maxIteration, maxRoots, start_point, end_point)
+    checkDifferPart3(results, [-2.76978295, -1, 0.437215962], "Muller's", "Expected", 10 ** -5)
     print("program finished :)")
 
 
