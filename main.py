@@ -43,115 +43,109 @@ def mullersMethod(p0, p1, p2, f, epsilon, maxIter):
     :return: the amount of the roots found in the range [p0, p2]
     """
     s = "The initial guess:\np0 = " + str(p0) + ", p1 = " + str(p1) + ", p2 = " + str(
-        p2) + "\n"  # print the intial guess for the range
-    countRoots = 0  # the number of roots that were found in the range
-    tempRes = []   # a list that will keep
-    start = p0  # will keep the original start point of the range
-    end = p2  # will keep the original end point of the range
+        p2) + "\n"     # print the intial guess for the range
+    countRoots = 0     # the number of roots that were found in the range
+    tempRes = []       # a list that will keep
+    start = p0         # will keep the original start point of the range
+    end = p2           # will keep the original end point of the range
     # Check if one of the initial guesses is a root of the function
-    flag = False  # will save if one of the initial guesses is a root of the function
-    maxTries = 10  # the max number of tries to fix an initial guess in case it's not in the definition area
-    move = 0  # the number of fixes made for a guess
-    while move < maxTries:
-        try:
-            if f(p0) == 0:
-                print(s)
+    flag = False       # will save if one of the initial guesses is a root of the function
+    maxTries = 10      # the max number of tries to fix an initial guess in case it's not in the definition area
+    move = 0           # the number of fixes made for a guess
+    while move < maxTries:     # the max number of tries to fix p0 in case it's not in f definition range
+        try:           # try to substitute p0 in f
+            if f(p0) == 0:     # if p0 is a root of f
+                print(s)       # if it is then print it's a root
                 print(colored("The root is: x = " + str(p0) + ", f(x) = " + str(f(p0)) + ", found after 0 iterations",
                               'blue'))
-                countRoots += 1
-                tempRes.append(p0)
-                flag = True
-            break
-        except:
-            move += 1
-            p0 += min(0.0001, epsilon)
-    if maxTries is move:
-        # print("Error - function is undefined in this range :("
-        return countRoots, tempRes
-    move = 0
-    while move < maxTries:
-        try:
-            if f(p1) == 0:
-                print(s)
+                countRoots += 1      # add 1 to the number of roots that were found in this range
+                tempRes.append(p0)   # add p0 to the results list
+                flag = True    # change the flag that indicated if one or more of the initial guesses is a root to true
+            break              # move on to p1
+        except:              # p0 is not in f definition range
+            move += 1        # update the number of tries to plus 1
+            p0 += min(0.0001, epsilon)    # move p0 to the next try
+    if maxTries is move:     # check if p0 is still isn't in the definition range of f
+        return countRoots, tempRes        # end checking this range
+    move = 0                 # update the number of fixes made for a p1 to 0
+    while move < maxTries:   # the max number of tries to fix p1 in case it's not in f definition range
+        try:                 # try to substitute p1 in f
+            if f(p1) == 0:           # if p1 is a root of f
+                print(s)             # if it is then print it's a root
                 print(colored("The root is: x = " + str(p1) + ", f(x) = " + str(f(p1)) + ", found after 1 iterations",
                               'blue'))
-                countRoots += 1
-                tempRes.append(p1)
-                flag = True
-            break
-        except:
-            move += 1
-            p1 += min(0.0001, epsilon)
-    if maxTries is move:
-        # print("Error - function is undefined in this range :(")
-        return countRoots, tempRes
+                countRoots += 1      # add 1 to the number of roots that were found in this range
+                tempRes.append(p1)   # add p1 to the results list
+                flag = True     # change the flag that indicated if one or more of the initial guesses is a root to true
+            break               # move on to p
+        except:             # p1 is not in f definition range
+            move += 1                   # update the number of tries to plus 1
+            p1 += min(0.0001, epsilon)  # move p1 to the next try
+    if maxTries is move:    # check if p1 is still isn't in the definition range of f
+        return countRoots, tempRes      # finish checking this range
 
-    move = 0
-    while move < maxTries:
-        try:
-            if f(p2) == 0:
-                print(s)
+    move = 0                  # update the number of fixes made for a p2 to 0
+    while move < maxTries:    # the max number of tries to fix p2 in case it's not in f definition range
+        try:                  # try to substitute p2 in f
+            if f(p2) == 0:    # if p2 is a root of f
+                print(s)      # if it is then print it's a root
                 print(colored("The root is: x = " + str(p2) + ", f(x) = " + str(f(p2)) + ", found after 2 iterations",
                               'blue'))
-                countRoots += 1
-                tempRes.append(p2)
-                flag = True
-            break
-        except:
-            move += 1
-            p2 -= min(0.0001, epsilon)
-    if maxTries is move:
-        # print("Error - function is undefined in this range :(")
-        return countRoots, tempRes
+                countRoots += 1      # add 1 to the number of roots that were found in this range
+                tempRes.append(p2)   # add p2 to the results list
+                flag = True  # change the flag that indicated if one or more of the initial guesses is a root to true
+            break            # finish fixing p2
+        except:              # p2 is not in f definition range
+            move += 1        # update the number of tries to plus 1
+            p2 -= min(0.0001, epsilon)     # move p2 to the next try value
+    if maxTries is move:     # check if p2 is still isn't in the definition range of f
+        return countRoots, tempRes         # finish checking this range
 
-    if flag is True:
-        return countRoots, tempRes
+    if flag is True:         # if at least one of the initial guesses is a root of f
+        return countRoots, tempRes         # finish checking this range
 
     # the iterations
-    h1 = p1 - p0
-    h2 = p2 - p1
+    h1 = p1 - p0    # the distance between the x of p1 and p0
+    h2 = p2 - p1    # the distance between the x of p2 and p1
     grad1 = (f(p1) - f(p0)) / h1  # The gradient between p0 and p1
     grad2 = (f(p2) - f(p1)) / h2  # The gradient between p1 and p2
-    d = (grad2 - grad1) / (h2 + h1)
-    iter = 3  # Start to count the iteration
-    while iter <= maxIter:  # while we did not reach the maximum iterations
-        b = grad2 + (h2 * d)
+    d = (grad2 - grad1) / (h2 + h1)        # calc d
+    iter = 3  # Start to count the iteration from 3
+    while iter <= maxIter:  # while we did not reach the maximum number of iterations
+        b = grad2 + (h2 * d)   # calc b
         try:
             if (b ** 2 - (
-                    4 * f(p2) * d)) < 0:  # if the discriminant is negative - cant do square root on negative number
-                # print("*** There is no real root ***")
-                return countRoots, tempRes
-        except:
-            # print("overflow")
-            return countRoots, tempRes
+                    4 * f(p2) * d)) < 0: # check if the discriminant is negative(cant do square root on negative number)
+                # there is no real root in this range
+                return countRoots, tempRes   # move on to the next range
+        except:    # overflow
+            return countRoots, tempRes       # move on to the next range
         D = (b ** 2 - (4 * f(p2) * d)) ** 0.5  # the square root in the denominator
         if abs(b - D) < abs(b + D):  # Save the biggest result
             E = b + D
         else:
             E = b - D
-        h = (-2) * f(p2) / E
-        p = p2 + h  # The new guess
-        try:
+        h = (-2) * f(p2) / E    # the root of the parabola created from the 3 points
+        p = p2 + h              # The new guess
+        try:        # check if p is in the definition range of f
             f(p)
         except:
-            return countRoots, tempRes
-        if abs(h) < epsilon:  # if the difference is smaller then epsilon
-            # if (p > start) and (p < end):
-            if (p > start) and (p < end) and (checkResult(f, p, epsilon) is True):  # if the point is in the range
-                if abs(f(p)) <= 0 + epsilon:
-                    print(s, end="")
+            return countRoots, tempRes    # p is not in the definition range so move to the next range
+        if abs(h) < epsilon:              # if the difference is smaller than epsilon
+            if (p > start) and (p < end) and (checkResult(f, p, epsilon) is True):  # check if the point is in the range
+                if abs(f(p)) <= 0 + epsilon:      # check if p is a root of f
+                    print(s, end="")      # if it is then print p as a result
                     print(
                         colored("The root is: x = " + str(p) + ", f(x) = " + str(f(p)) + ", found after " + str(
                             iter) + " iterations\n", 'blue'))
-                    countRoots += 1
-                    tempRes.append(p)
-                    return countRoots, tempRes
+                    countRoots += 1              # add 1 to the number of roots that were found in this range
+                    tempRes.append(p)            # add p to the results list
+                    return countRoots, tempRes   # move on to the next range
                 else:
-                    return countRoots, tempRes
-            else:
-                # print("*** There is no root in this range ***")
-                return countRoots, tempRes
-        s += ("iteration = " + str(iter) + ", x = " + str(p) + ", f(x) = " + str(f(p)) + "\n")
+                    return countRoots, tempRes  # p is not a root of f (handles cases where the functin is constant in this range)
+            else:    # there isn't a root in this range
+                return countRoots, tempRes      # move to the nect range
+        s += ("iteration = " + str(iter) + ", x = " + str(p) + ", f(x) = " + str(f(p)) + "\n")   # add the iteration info to the string
         # Preparing the variable for the next iteration
         p0 = p1
         p1 = p2
