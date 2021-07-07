@@ -174,30 +174,34 @@ def rangeDivision(polinom, epsilon, iterNumber, maxRoots, start_point, end_point
     # dividing the range to small parts
     results = []      # a list of the all the roots of the function in the range[]
     rootsCount = 0    # the number of roots that were found in the range
-    end = start_point + 0.1      
-    middle = start_point + 0.05
-    while end <= end_point and rootsCount < maxRoots:  # while we don't reach to the end point of the range
-        # print("range: [" + str(start_point) + ", " + str(end) + "]")
+    end = start_point + 0.1      # the end point of the first range
+    middle = start_point + 0.05  # the middle point of the first range
+    while end <= end_point and rootsCount < maxRoots:   # while we are in the range and find the maximum roots number
         tempCount, tempRes = mullersMethod(start_point, middle, end, polinom, epsilon,
                                            iterNumber)  # calculate by muller`s method
-        rootsCount += tempCount
-        results.extend(tempRes)
-        start_point = end  # increase the start point of the range
-        middle = (start_point + 0.05)  # set the middle point of the range
-        end = start_point + 0.1  # set the end point of the range
+        rootsCount += tempCount   # update the number of roots found
+        results.extend(tempRes)   # add the new results to the roots list
+        start_point = end         # update the start point to the next range
+        middle = (start_point + 0.05)  # set the middle point of the new range
+        end = start_point + 0.1  # set the end point of the new range
     print("The number of roots found is: " + str(rootsCount))
     return results
 
 
-
 def checkDifferPart3(l, d, name1, name2, epsilon):
+    """
+    :param l: the roots that were received from muller's method
+    :param d: the expected roots
+    :param name1: the name of the first method
+    :param name2: the name of the second method
+    :param epsilon: maximum difference between the results
+    :return: None
+    """
     print("check the difference between the roots:")
-    # flag = True
-    for i in range(len(l)):
+    for i in range(len(l)):   # go over all the results
         print("x" + str(i + 1) + " - " + name1 + ": " + str(l[i])
               + "\nx" + str(i + 1) + " - " + name2 + ": " + str(d[i]))
-        if abs(l[i] - d[i]) > epsilon:
-            # flag = False
+        if abs(l[i] - d[i]) > epsilon:   # check if the difference between the result is bigger than epsilon
             print("The difference is bigger than epsilon for some of the components\n")
             return
     print("The difference is smaller than epsilon for all the components\n")
@@ -205,16 +209,10 @@ def checkDifferPart3(l, d, name1, name2, epsilon):
 
 def driver():
     x = sp.symbols('x')
-    f = x ** 4 - 3 * (x ** 3) + x ** 2 + x + 1
-    f = (x ** 4 - 4 * (x ** 2)) / x
-    # f = (x ** 3 + 1) ** 15
-    # f = ((x - x ** 3) ** 0.5) / ((math.exp(1)) ** x)
-    # f = (x) ** 0.5
-    # y = sp.lambdify(f, x)
-    # print(y)
-    # f = (math.exp(1))**x
+    # f = x ** 4 - 3 * (x ** 3) + x ** 2 + x + 1
+    # f = (x ** 4 - 4 * (x ** 2)) / x
     # f = sympy.cos(x)
-    # f = (10 * x * ((math.exp(1) ** x)) - (x ** 3)) / (x**3 - 5)
+    f = (10 * x * (math.exp(1) ** x) - (x ** 3)) / (x**3 - 5)
     f = log(x ** 4, 10) + x + 1
     epsilon = 10 ** -5
     maxRoots = 15
