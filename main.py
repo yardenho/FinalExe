@@ -200,11 +200,14 @@ def checkDifferPart3(l, d, name1, name2, epsilon):
     :return: None
     """
     print("check the difference between the roots:")
+    if len(l) is not len(d):
+        print(colored("The amount of roots found is not the same :(\n", 'red'))
+        return
     for i in range(len(l)):  # go over all the results
         print("x" + str(i + 1) + " - " + name1 + ": " + str(l[i])
               + "\nx" + str(i + 1) + " - " + name2 + ": " + str(d[i]))
         if abs(l[i] - d[i]) > epsilon:  # check if the difference between the result is bigger than epsilon
-            print("The difference is bigger than epsilon for some of the components\n")
+            print("The difference is " + colored("bigger", 'red') + " than epsilon for some of the components\n")
             return
     print("The difference is " + colored("smaller", 'yellow') + " than epsilon for all the components\n")
 
